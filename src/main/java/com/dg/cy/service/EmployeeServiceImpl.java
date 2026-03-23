@@ -32,7 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Employee create(Employee employee) {
 		// Ensure a new row is created even if the caller provides an id.
-		employee.setId(null);
+//		employee.setId(null);
 		return employeeRepository.save(employee);
 	}
 
@@ -48,9 +48,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public boolean delete(int id) {
-		if (!employeeRepository.existsById(id)) {
-			return false;
-		}
 		employeeRepository.deleteById(id);
 		return true;
 	}
