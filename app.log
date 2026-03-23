@@ -1,0 +1,35 @@
+2026-03-23T16:14:46.100+05:30  INFO 8000 --- [dg-test-app] [main] com.dg.cy.Application                    : Starting Application using Java 25.0.2 with PID 8000 (D:\projects\sts-5.1.1.RELEASE\STS_WS\test-proj\target\classes started by P FR in D:\projects\sts-5.1.1.RELEASE\STS_WS\test-proj)
+2026-03-23T16:14:46.109+05:30  INFO 8000 --- [dg-test-app] [main] com.dg.cy.Application                    : No active profile set, falling back to 1 default profile: "default"
+2026-03-23T16:14:46.977+05:30  INFO 8000 --- [dg-test-app] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-23T16:14:47.101+05:30  INFO 8000 --- [dg-test-app] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 103 ms. Found 1 JPA repository interface.
+2026-03-23T16:14:47.733+05:30  INFO 8000 --- [dg-test-app] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-03-23T16:14:47.774+05:30  INFO 8000 --- [dg-test-app] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-23T16:14:47.777+05:30  INFO 8000 --- [dg-test-app] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-03-23T16:14:47.881+05:30  INFO 8000 --- [dg-test-app] [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1700 ms
+2026-03-23T16:14:48.126+05:30  INFO 8000 --- [dg-test-app] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-03-23T16:14:49.039+05:30  INFO 8000 --- [dg-test-app] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@543fe698
+2026-03-23T16:14:49.043+05:30  INFO 8000 --- [dg-test-app] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-03-23T16:14:49.117+05:30  INFO 8000 --- [dg-test-app] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-03-23T16:14:49.255+05:30  INFO 8000 --- [dg-test-app] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-03-23T16:14:50.010+05:30  INFO 8000 --- [dg-test-app] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-23T16:14:50.191+05:30  INFO 8000 --- [dg-test-app] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/test-db]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.45
+	Default catalog/schema: test-db/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-23T16:14:51.242+05:30  INFO 8000 --- [dg-test-app] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-23T16:14:51.252+05:30  INFO 8000 --- [dg-test-app] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-23T16:14:51.384+05:30  INFO 8000 --- [dg-test-app] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-23T16:14:51.661+05:30  WARN 8000 --- [dg-test-app] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-23T16:14:52.139+05:30  INFO 8000 --- [dg-test-app] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-03-23T16:14:52.162+05:30  INFO 8000 --- [dg-test-app] [main] com.dg.cy.Application                    : Started Application in 6.631 seconds (process running for 7.342)
+2026-03-23T16:14:54.514+05:30  INFO 8000 --- [dg-test-app] [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-23T16:14:54.515+05:30  INFO 8000 --- [dg-test-app] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-03-23T16:14:54.518+05:30  INFO 8000 --- [dg-test-app] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
