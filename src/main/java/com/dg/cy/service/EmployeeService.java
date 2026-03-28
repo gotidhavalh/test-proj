@@ -1,18 +1,18 @@
 package com.dg.cy.service;
 
-import com.dg.cy.model.Employee;
+import com.dg.cy.dto.EmployeeDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface EmployeeService {
-	List<Employee> getAll();
+	List<EmployeeDTO> getAll();
 
-	Optional<Employee> getById(int id);
+	Optional<EmployeeDTO> getById(int id);
 
-	Employee create(Employee employee);
+	EmployeeDTO create(EmployeeDTO dto);
 
-	Optional<Employee> update(int id, Employee employee);
+	Optional<EmployeeDTO> update(int id, EmployeeDTO dto);
 
 	boolean delete(int id);
 }

@@ -1,5 +1,6 @@
 package com.dg.cy.service;
 
+import com.dg.cy.dto.EmployeeDTO;
 import com.dg.cy.model.Employee;
 import com.dg.cy.repo.EmployeeRepository;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -19,31 +21,31 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public List<Employee> getAll() {
-		return employeeRepository.findAll();
+	public List<EmployeeDTO> getAll() {
+		return employeeRepository.findAll().stream()
+				.map(this::toDTO)
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<Employee> getById(int id) {
-		return employeeRepository.findById(id);
+	public Optional<EmployeeDTO> getById(int id) {
+		return employeeRepository.findById(id).map(this::toDTO);
 	}
 
 	@Override
-	public Employee create(Employee employee) {
-		// Ensure a new row is created even if the caller provides an id.
-//		employee.setId(null);
-		return employeeRepository.save(employee);
+	public EmployeeDTO create(EmployeeDTO dto) {
+		return toDTO(employeeRepository.save(toEntity(dto)));
 	}
 
 	@Override
-	public Optional<Employee> update(int id, Employee employee) {
+	public Optional<EmployeeDTO> update(int id, EmployeeDTO dto) {
 		return employeeRepository.findById(id).map(existing -> {
-			existing.setName(employee.getName());
-			existing.setAddress(employee.getAddress());
-			existing.setSalary(employee.getSalary());
-			existing.setDob(employee.getDob());
-			return employeeRepository.save(existing);
+			existing.setName(dto.getName());
+			existing.setAddress(dto.getAddress());
+			existing.setSalary(dto.getSalary());
+			existing.setDob(dto.getDob());
+			return toDTO(employeeRepository.save(existing));
 		});
 	}
 
@@ -51,6 +53,26 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public boolean delete(int id) {
 		employeeRepository.deleteById(id);
 		return true;
+	}
+
+	private EmployeeDTO toDTO(Employee employee) {
+		return new EmployeeDTO(
+				employee.getId(),
+				employee.getName(),
+				employee.getAddress(),
+				employee.getSalary(),
+				employee.getDob()
+		);
+	}
+
+	private Employee toEntity(EmployeeDTO dto) {
+		return new Employee(
+				dto.getId(),
+				dto.getName(),
+				dto.getAddress(),
+				dto.getSalary(),
+				dto.getDob()
+		);
 	}
 }
 
