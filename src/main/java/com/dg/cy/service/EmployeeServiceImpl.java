@@ -1,7 +1,9 @@
 package com.dg.cy.service;
 
 import com.dg.cy.dto.EmployeeDTO;
+import com.dg.cy.model.Department;
 import com.dg.cy.model.Employee;
+import com.dg.cy.repo.DepartmentRepository;
 import com.dg.cy.repo.EmployeeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,9 +17,11 @@ import java.util.stream.Collectors;
 public class EmployeeServiceImpl implements EmployeeService {
 
 	private final EmployeeRepository employeeRepository;
+	private final DepartmentRepository departmentRepository;
 
-	public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+	public EmployeeServiceImpl(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository) {
 		this.employeeRepository = employeeRepository;
+		this.departmentRepository = departmentRepository;
 	}
 
 	@Override
@@ -45,6 +49,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			existing.setAddress(dto.getAddress());
 			existing.setSalary(dto.getSalary());
 			existing.setDob(dto.getDob());
+			existing.setDepartment(resolveDepartment(dto.getDeptId()));
 			return toDTO(employeeRepository.save(existing));
 		});
 	}
@@ -56,23 +61,33 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	private EmployeeDTO toDTO(Employee employee) {
+		Integer deptId = employee.getDepartment() != null ? employee.getDepartment().getId() : null;
 		return new EmployeeDTO(
 				employee.getId(),
 				employee.getName(),
 				employee.getAddress(),
 				employee.getSalary(),
-				employee.getDob()
+				employee.getDob(),
+				deptId
 		);
 	}
 
 	private Employee toEntity(EmployeeDTO dto) {
-		return new Employee(
+		Employee employee = new Employee(
 				dto.getId(),
 				dto.getName(),
 				dto.getAddress(),
 				dto.getSalary(),
-				dto.getDob()
+				dto.getDob(),
+				resolveDepartment(dto.getDeptId())
 		);
+		return employee;
+	}
+
+	private Department resolveDepartment(Integer deptId) {
+		if (deptId == null) {
+			return null;
+		}
+		return departmentRepository.findById(deptId).orElse(null);
 	}
 }
-

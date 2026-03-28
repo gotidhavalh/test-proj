@@ -14,15 +14,18 @@ public class EmployeeDTO {
 
 	private LocalDate dob;
 
+	private Integer deptId;
+
 	public EmployeeDTO() {
 	}
 
-	public EmployeeDTO(Integer id, String name, String address, Double salary, LocalDate dob) {
+	public EmployeeDTO(Integer id, String name, String address, Double salary, LocalDate dob, Integer deptId) {
 		this.id = id;
 		this.name = name;
 		this.address = address;
 		this.salary = salary;
 		this.dob = dob;
+		this.deptId = deptId;
 	}
 
 	public Integer getId() {
@@ -63,5 +66,13 @@ public class EmployeeDTO {
 
 	public void setDob(LocalDate dob) {
 		this.dob = dob;
+	}
+
+	public Integer getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(Integer deptId) {
+		this.deptId = deptId;
 	}
 }

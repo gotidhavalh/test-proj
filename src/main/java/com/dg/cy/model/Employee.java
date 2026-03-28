@@ -2,9 +2,12 @@ package com.dg.cy.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 
@@ -14,7 +17,7 @@ public class Employee {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id; // auto-increment
+	private Integer id;
 
 	private String name;
 
@@ -25,15 +28,20 @@ public class Employee {
 	@Column(nullable = false)
 	private LocalDate dob;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "dept_id")
+	private Department department;
+
 	public Employee() {
 	}
 
-	public Employee(Integer id, String name, String address, Double salary, LocalDate dob) {
+	public Employee(Integer id, String name, String address, Double salary, LocalDate dob, Department department) {
 		this.id = id;
 		this.name = name;
 		this.address = address;
 		this.salary = salary;
 		this.dob = dob;
+		this.department = department;
 	}
 
 	public Integer getId() {
@@ -75,5 +83,12 @@ public class Employee {
 	public void setDob(LocalDate dob) {
 		this.dob = dob;
 	}
-}
 
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+}
