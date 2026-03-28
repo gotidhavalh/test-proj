@@ -25,9 +25,8 @@ public class EmployeeController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<EmployeeDTO> getById(@PathVariable int id) {
-		return employeeService.getById(id)
-				.map(ResponseEntity::ok)
-				.orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+		
+		return ResponseEntity.ok(employeeService.getById(id));
 	}
 
 	@PostMapping
@@ -38,9 +37,8 @@ public class EmployeeController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<EmployeeDTO> update(@PathVariable int id, @RequestBody EmployeeDTO dto) {
-		return employeeService.update(id, dto)
-				.map(ResponseEntity::ok)
-				.orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+		
+		return ResponseEntity.ok(employeeService.update(id,dto));
 	}
 
 	@DeleteMapping("/{id}")

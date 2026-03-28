@@ -44,14 +44,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Optional<EmployeeDTO> update(int id, EmployeeDTO dto) {
-		return employeeRepository.findById(id).map(existing -> {
-			existing.setName(dto.getName());
-			existing.setAddress(dto.getAddress());
-			existing.setSalary(dto.getSalary());
-			existing.setDob(dto.getDob());
-			existing.setDepartment(resolveDepartment(dto.getDeptId()));
-			return toDTO(employeeRepository.save(existing));
-		});
+		
+		Employee emp = employeeRepository.getById(id);
+		emp.setName(dto.getName());
+		emp.setAddress(dto.getAddress());
+		emp.setSalary(dto.getSalary());
+		emp.setDob(dto.getDob());
+		emp.setDepartment(resolveDepartment(dto.getDeptId()));
+		
+		return toDTO(employeeRepository.save(emp));
+		
 	}
 
 	@Override

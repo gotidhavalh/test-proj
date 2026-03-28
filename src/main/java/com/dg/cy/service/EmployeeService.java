@@ -8,11 +8,11 @@ import java.util.Optional;
 public interface EmployeeService {
 	List<EmployeeDTO> getAll();
 
-	Optional<EmployeeDTO> getById(int id);
+	EmployeeDTO getById(int id);
 
 	EmployeeDTO create(EmployeeDTO dto);
 
-	Optional<EmployeeDTO> update(int id, EmployeeDTO dto);
+	EmployeeDTO update(int id, EmployeeDTO dto);
 
 	boolean delete(int id);
 }
