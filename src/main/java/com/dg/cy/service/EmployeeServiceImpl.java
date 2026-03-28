@@ -33,8 +33,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<EmployeeDTO> getById(int id) {
-		return employeeRepository.findById(id).map(this::toDTO);
+	public EmployeeDTO getById(int id) {
+		 Employee emp = employeeRepository.getOne(id);
+		 return toDTO(emp);
 	}
 
 	@Override
@@ -43,7 +44,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Optional<EmployeeDTO> update(int id, EmployeeDTO dto) {
+	public EmployeeDTO update(int id, EmployeeDTO dto) {
 		
 		Employee emp = employeeRepository.getById(id);
 		emp.setName(dto.getName());
