@@ -1,6 +1,6 @@
 package com.dg.cy.controller;
 
-import com.dg.cy.model.Employee;
+import com.dg.cy.dto.EmployeeDTO;
 import com.dg.cy.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,26 +19,26 @@ public class EmployeeController {
 	}
 
 	@GetMapping
-	public List<Employee> getAll() {
+	public List<EmployeeDTO> getAll() {
 		return employeeService.getAll();
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Employee> getById(@PathVariable int id) {
+	public ResponseEntity<EmployeeDTO> getById(@PathVariable int id) {
 		return employeeService.getById(id)
 				.map(ResponseEntity::ok)
 				.orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 
 	@PostMapping
-	public ResponseEntity<Employee> create(@RequestBody Employee employee) {
-		Employee created = employeeService.create(employee);
+	public ResponseEntity<EmployeeDTO> create(@RequestBody EmployeeDTO dto) {
+		EmployeeDTO created = employeeService.create(dto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(created);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Employee> update(@PathVariable int id, @RequestBody Employee employee) {
-		return employeeService.update(id, employee)
+	public ResponseEntity<EmployeeDTO> update(@PathVariable int id, @RequestBody EmployeeDTO dto) {
+		return employeeService.update(id, dto)
 				.map(ResponseEntity::ok)
 				.orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
