@@ -51,7 +51,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		emp.setAddress(dto.getAddress());
 		emp.setSalary(dto.getSalary());
 		emp.setDob(dto.getDob());
-		emp.setDepartment(resolveDepartment(dto.getDeptId()));
+		emp.setDepartment(departmentRepository.getOne(dto.getDeptId()));
 		
 		return toDTO(employeeRepository.save(emp));
 		
@@ -82,15 +82,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 				dto.getAddress(),
 				dto.getSalary(),
 				dto.getDob(),
-				resolveDepartment(dto.getDeptId())
+				departmentRepository.getOne(dto.getDeptId())
 		);
 		return employee;
-	}
-
-	private Department resolveDepartment(Integer deptId) {
-		if (deptId == null) {
-			return null;
-		}
-		return departmentRepository.findById(deptId).orElse(null);
 	}
 }
