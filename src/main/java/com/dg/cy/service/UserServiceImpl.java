@@ -3,8 +3,10 @@ package com.dg.cy.service;
 import com.dg.cy.dto.UserDTO;
 import com.dg.cy.model.User;
 import com.dg.cy.repo.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +31,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(readOnly = true)
 	public UserDTO getById(int id) {
-		User user = userRepository.getOne(id);
+		// Use an eager lookup so a missing row returns a clean 404 instead of a lazy proxy error.
+		User user = userRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found: " + id));
 		return toDTO(user);
 	}
 
@@ -40,7 +44,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDTO update(int id, UserDTO dto) {
-		User user = userRepository.getById(id);
+		// Reuse the eager lookup so updates also return a clean 404 for missing users.
+		User user = userRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found: " + id));
 		user.setName(dto.getName());
 		user.setEmail(dto.getEmail());
 		user.setIsActive(dto.getIsActive());
