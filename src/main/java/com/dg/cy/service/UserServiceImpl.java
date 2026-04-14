@@ -3,8 +3,10 @@ package com.dg.cy.service;
 import com.dg.cy.dto.UserDTO;
 import com.dg.cy.model.User;
 import com.dg.cy.repo.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +31,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(readOnly = true)
 	public UserDTO getById(int id) {
-		User user = userRepository.getOne(id);
+		User user = userRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id " + id));
+		// Resolve the entity explicitly so a missing row returns 404 instead of a Hibernate proxy error.
 		return toDTO(user);
 	}
 
@@ -40,7 +44,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDTO update(int id, UserDTO dto) {
-		User user = userRepository.getById(id);
+		User user = userRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id " + id));
 		user.setName(dto.getName());
 		user.setEmail(dto.getEmail());
 		user.setIsActive(dto.getIsActive());
