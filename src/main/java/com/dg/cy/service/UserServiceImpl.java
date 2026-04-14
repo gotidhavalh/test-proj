@@ -29,7 +29,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(readOnly = true)
 	public UserDTO getById(int id) {
-		User user = userRepository.getOne(id);
+		User user = userRepository.findById(id).orElse(null);
+		// Avoid Hibernate proxy access when the row is missing.
+		if (user == null) {
+			return null;
+		}
 		return toDTO(user);
 	}
 
@@ -40,7 +44,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDTO update(int id, UserDTO dto) {
-		User user = userRepository.getById(id);
+		User user = userRepository.findById(id).orElse(null);
+		if (user == null) {
+			return null;
+		}
 		user.setName(dto.getName());
 		user.setEmail(dto.getEmail());
 		user.setIsActive(dto.getIsActive());
@@ -49,6 +56,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean delete(int id) {
+		if (!userRepository.existsById(id)) {
+			return false;
+		}
 		userRepository.deleteById(id);
 		return true;
 	}

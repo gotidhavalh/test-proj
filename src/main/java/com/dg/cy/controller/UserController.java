@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -25,7 +26,7 @@ public class UserController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<UserDTO> getById(@PathVariable int id) {
-		return ResponseEntity.ok(userService.getById(id));
+		return ResponseEntity.of(Optional.ofNullable(userService.getById(id)));
 	}
 
 	@PostMapping
@@ -35,7 +36,7 @@ public class UserController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<UserDTO> update(@PathVariable int id, @RequestBody UserDTO dto) {
-		return ResponseEntity.ok(userService.update(id, dto));
+		return ResponseEntity.of(Optional.ofNullable(userService.update(id, dto)));
 	}
 
 	@DeleteMapping("/{id}")
