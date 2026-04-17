@@ -25,7 +25,9 @@ public class UserController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<UserDTO> getById(@PathVariable int id) {
-		return ResponseEntity.ok(userService.getById(id));
+		return userService.getById(id)
+				.map(ResponseEntity::ok)
+				.orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 
 	@PostMapping
@@ -35,7 +37,9 @@ public class UserController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<UserDTO> update(@PathVariable int id, @RequestBody UserDTO dto) {
-		return ResponseEntity.ok(userService.update(id, dto));
+		return userService.update(id, dto)
+				.map(ResponseEntity::ok)
+				.orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 
 	@DeleteMapping("/{id}")

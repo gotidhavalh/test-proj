@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,9 +29,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public UserDTO getById(int id) {
-		User user = userRepository.getOne(id);
-		return toDTO(user);
+	public Optional<UserDTO> getById(int id) {
+		// Use findById so a missing user becomes a normal 404 path, not a proxy failure.
+		return userRepository.findById(id).map(this::toDTO);
 	}
 
 	@Override
@@ -39,12 +40,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDTO update(int id, UserDTO dto) {
-		User user = userRepository.getById(id);
-		user.setName(dto.getName());
-		user.setEmail(dto.getEmail());
-		user.setIsActive(dto.getIsActive());
-		return toDTO(userRepository.save(user));
+	public Optional<UserDTO> update(int id, UserDTO dto) {
+		return userRepository.findById(id).map(user -> {
+			user.setName(dto.getName());
+			user.setEmail(dto.getEmail());
+			user.setIsActive(dto.getIsActive());
+			return toDTO(userRepository.save(user));
+		});
 	}
 
 	@Override
