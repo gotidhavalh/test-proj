@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class UserEmailScheduler {
@@ -27,7 +28,7 @@ public class UserEmailScheduler {
 	public void sendDailyEmailToAllUsers() {
 		List<User> users = userRepository.findAll().stream()
 				.filter(u -> Boolean.TRUE.equals(u.getIsActive()))
-				.toList();
+				.collect(Collectors.toList());
 
 		log.info("Sending daily email to {} active users", users.size());
 

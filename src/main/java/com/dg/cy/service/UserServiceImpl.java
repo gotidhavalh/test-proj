@@ -29,8 +29,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(readOnly = true)
 	public UserDTO getById(int id) {
-		User user = userRepository.getOne(id);
-		return toDTO(user);
+		// Use findById so missing rows do not trigger EntityNotFoundException from JPA proxies.
+		return userRepository.findById(id).map(this::toDTO).orElse(null);
 	}
 
 	@Override
@@ -40,11 +40,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDTO update(int id, UserDTO dto) {
-		User user = userRepository.getById(id);
-		user.setName(dto.getName());
-		user.setEmail(dto.getEmail());
-		user.setIsActive(dto.getIsActive());
-		return toDTO(userRepository.save(user));
+		return userRepository.findById(id)
+				.map(user -> {
+					user.setName(dto.getName());
+					user.setEmail(dto.getEmail());
+					user.setIsActive(dto.getIsActive());
+					return toDTO(userRepository.save(user));
+				})
+				.orElse(null);
 	}
 
 	@Override
