@@ -1,15 +1,14 @@
 package com.dg.cy.service;
 
 import com.dg.cy.dto.EmployeeDTO;
-import com.dg.cy.model.Department;
 import com.dg.cy.model.Employee;
 import com.dg.cy.repo.DepartmentRepository;
 import com.dg.cy.repo.EmployeeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,16 +44,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public EmployeeDTO update(int id, EmployeeDTO dto) {
-		
 		Employee emp = employeeRepository.getById(id);
 		emp.setName(dto.getName());
 		emp.setAddress(dto.getAddress());
 		emp.setSalary(dto.getSalary());
-		emp.setDob(dto.getDob());
+		emp.setDob(requireDob(dto.getDob()));
 		emp.setDepartment(departmentRepository.getOne(dto.getDeptId()));
-		
 		return toDTO(employeeRepository.save(emp));
-		
 	}
 
 	@Override
@@ -81,9 +77,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 				dto.getName(),
 				dto.getAddress(),
 				dto.getSalary(),
-				dto.getDob(),
+				requireDob(dto.getDob()),
 				departmentRepository.getOne(dto.getDeptId())
 		);
 		return employee;
+	}
+
+	private LocalDate requireDob(LocalDate dob) {
+		if (dob == null) {
+			// Hibernate maps dob as non-null, so reject missing input before save.
+			throw new IllegalArgumentException("Employee dob must not be null");
+		}
+		return dob;
 	}
 }
